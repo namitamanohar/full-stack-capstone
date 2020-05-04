@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using FullStackCapstone.Data;
 using FullStackCapstone.Models;
+using FullStackCapstone.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace FullStackCapstone.Controllers
@@ -46,7 +48,23 @@ namespace FullStackCapstone.Controllers
         // GET: Opportunties/Create
         public async Task<ActionResult> Create()
         {
-            return View();
+
+            var ProgramTypes = await _context.ProgramType
+                .Select(pt => new SelectListItem() { Text = pt.Title, Value = pt.Id.ToString() })
+                .ToListAsync();
+
+            var SubjectTypes = await _context.Subject
+               .Select(s => new SelectListItem() { Text = s.Title, Value = s.Id.ToString() })
+               .ToListAsync();
+
+            var viewModel = new OppFormViewModel()
+            {
+                ProgramTypeOptions = ProgramTypes, 
+                SubjectOptions = SubjectTypes
+                
+            }; 
+
+            return View(viewModel);
         }
 
         // POST: Opportunties/Create

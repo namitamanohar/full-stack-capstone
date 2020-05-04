@@ -13,6 +13,8 @@
 
 @if (SignInManager.IsSignedIn(User) && UserManager.GetUserAsync(User).Result.IsAdmin)
 {
+    <a class="btn btn bg-primary" asp-controller="Opportunities" asp-action="Create" > Add New Summer Opportunity</a>
+    <br />
     <div class="oppCards" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content:space-evenly">
 
         @foreach (var item in Model)
@@ -24,7 +26,7 @@
                     <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
                     <p class="card-text">Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
-                    <a type="button" class="btn btn-info" href="@item.ApplicationLink" target="_blank">Apply</a>
+                    <a type="button" class="btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
                     <a type="button" class="btn btn-warning" asp-controller="Opportunities" asp-action="">Program Details</a>
                     <br />
                     <a type="button" class="btn btn-secondary" asp-controller="Opportunities" asp-action="">Edit </a>
@@ -50,7 +52,7 @@
                     <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
                     <p class="card-text">Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
-                    <a type="button" class="btn btn-info" href="@item.ApplicationLink" target="_blank">Apply</a>
+                    <a type="button" class="btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
                     <a type="button" class="btn btn-warning" asp-controller="Opportunities" asp-action="">Program Details</a>
                     <a type="button" class="btn btn-primary" asp-controller="" asp-action="">Add to Cart</a>
                 </div>
@@ -75,7 +77,7 @@
                     <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
                     <p class="card-text">Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
-                    <a type="button" class="btn btn-info" href="@item.ApplicationLink" target="_blank">Apply</a>
+                    <a type="button" class="btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
                     <a type="button" class="btn btn-warning" asp-controller="Opportunities" asp-action="">Program Details</a>
                 </div>
             </div>
