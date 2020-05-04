@@ -18,8 +18,10 @@ namespace FullStackCapstone.Models
 
         public string ApplicationLink { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dddd, MMMM dd, yyyy}")]
         public DateTime StartDate { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dddd, MMMM dd, yyyy}")]
         public DateTime EndDate { get; set; }
 
         public string AgeRange { get; set; }
@@ -34,6 +36,7 @@ namespace FullStackCapstone.Models
 
         public bool IsActive { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dddd, MMMM dd, yyyy}")]
         public DateTime ApplicationDeadline { get; set; }
 
 
