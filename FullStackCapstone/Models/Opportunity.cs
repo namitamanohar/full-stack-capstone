@@ -26,8 +26,15 @@ namespace FullStackCapstone.Models
 
         public int SubjectId { get; set; }
 
+        public Subject Subject  { get; set; }
+
         public int ProgramTypeId { get; set; }
 
+        public ProgramType ProgramType { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public DateTime ApplicationDeadline { get; set; }
 
 
     }
