@@ -1,0 +1,90 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@model IEnumerable<FullStackCapstone.Models.Opportunity>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>MELAN.IN</h1>
+
+
+@if (SignInManager.IsSignedIn(User) && UserManager.GetUserAsync(User).Result.IsAdmin)
+{
+    <div class="oppCards" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content:space-evenly">
+
+        @foreach (var item in Model)
+        {
+
+            <div class="card border-primary mb-3" style="max-width: 20rem;">
+                <div class="card-header">@Html.DisplayFor(modelItem => item.Subject.Title) @Html.DisplayFor(modelItem => item.ProgramType.Title)</div>
+                <div class="card-body">
+                    <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
+                    <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
+                    <p class="card-text">Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
+                    <a type="button" class="btn btn-info" href="@item.ApplicationLink" target="_blank">Apply</a>
+                    <a type="button" class="btn btn-warning" asp-controller="Opportunities" asp-action="">Program Details</a>
+                    <br />
+                    <a type="button" class="btn btn-secondary" asp-controller="Opportunities" asp-action="">Edit </a>
+                    <a type="button" class="btn btn-primary" asp-controller="Opportunities" asp-action="">Delete</a>
+                </div>
+            </div>
+
+        }
+    </div>
+}
+
+@if (SignInManager.IsSignedIn(User) && !UserManager.GetUserAsync(User).Result.IsAdmin)
+{
+
+    <div class="oppCards" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content:space-evenly">
+
+        @foreach (var item in Model)
+        {
+
+            <div class="card border-primary mb-3" style="max-width: 20rem;">
+                <div class="card-header">@Html.DisplayFor(modelItem => item.Subject.Title) @Html.DisplayFor(modelItem => item.ProgramType.Title)</div>
+                <div class="card-body">
+                    <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
+                    <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
+                    <p class="card-text">Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
+                    <a type="button" class="btn btn-info" href="@item.ApplicationLink" target="_blank">Apply</a>
+                    <a type="button" class="btn btn-warning" asp-controller="Opportunities" asp-action="">Program Details</a>
+                    <a type="button" class="btn btn-primary" asp-controller="" asp-action="">Add to Cart</a>
+                </div>
+            </div>
+
+        }
+    </div>
+
+}
+
+@if (!SignInManager.IsSignedIn(User))
+{
+
+    <div class="oppCards" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content:space-evenly">
+
+        @foreach (var item in Model)
+        {
+
+            <div class="card border-primary mb-3" style="max-width: 20rem;">
+                <div class="card-header">@Html.DisplayFor(modelItem => item.Subject.Title) @Html.DisplayFor(modelItem => item.ProgramType.Title)</div>
+                <div class="card-body">
+                    <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
+                    <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
+                    <p class="card-text">Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
+                    <a type="button" class="btn btn-info" href="@item.ApplicationLink" target="_blank">Apply</a>
+                    <a type="button" class="btn btn-warning" asp-controller="Opportunities" asp-action="">Program Details</a>
+                </div>
+            </div>
+
+        }
+    </div>
+
+
+}
+
+
+

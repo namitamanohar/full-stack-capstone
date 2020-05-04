@@ -11,14 +11,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FullStackCapstone.Controllers
 {
-    public class OpportuntiesController : Controller
+    public class OpportunitiesController : Controller
     {
 
         private readonly ApplicationDbContext _context;
 
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public OpportuntiesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public OpportunitiesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
 
             _context = context;
@@ -33,6 +33,8 @@ namespace FullStackCapstone.Controllers
                 .Include(o => o.ProgramType).ToListAsync(); 
                             
             return View(opps);
+
+
         }
 
         // GET: Opportunties/Details/5
@@ -109,5 +111,7 @@ namespace FullStackCapstone.Controllers
                 return View();
             }
         }
+
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
     }
 }
