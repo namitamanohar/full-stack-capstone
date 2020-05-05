@@ -1,0 +1,54 @@
+﻿@model IEnumerable<FullStackCapstone.Models.OppCart>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Summer Programs To Do List</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Application Deadline
+            </th>
+            <th>
+                Complete?
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Opportunity.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Opportunity.ApplicationDeadline)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsComplete)
+                </td>
+                <td>
+
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+
+
+        }
+    </tbody>
+</table>
+
+
+
+
+

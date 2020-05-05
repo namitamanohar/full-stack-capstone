@@ -29,16 +29,14 @@
                         @if (SignInManager.IsSignedIn(User) && !UserManager.GetUserAsync(User).Result.IsAdmin )
                         {
 
-                        
-
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Opportunities" asp-action="Index">Summer Opps</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="Index">Opportunity Cart</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="OppCarts" asp-action="Index">Opportunity Cart</a>
                                 </li>
 
-                            
+                        
 
 
                         }
@@ -49,9 +47,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Opportunities" asp-action="Index">Summer Opps</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Opportunities" asp-action="Index">Add Opportunity</a>
-                                </li>
+                          
 
                         }
 
