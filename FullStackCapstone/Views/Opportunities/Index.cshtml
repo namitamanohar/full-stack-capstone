@@ -13,7 +13,7 @@
 
 @if (SignInManager.IsSignedIn(User) && UserManager.GetUserAsync(User).Result.IsAdmin)
 {
-    @*<a class="btn btn bg-primary" asp-controller="Opportunities" asp-action="Create"> Add New Summer Opportunity</a>*@
+   
     <a href="#" class="btn btn bg-primary" data-target="#CreateOppFormModal" data-toggle="modal"> Add New Summer Opportunity</a>
     <div class="modal" id="CreateOppFormModal" role="dialog">
         <div class="modal-dialog">
@@ -25,63 +25,60 @@
                 </div>
 
                 <div class="modal-body">
-                    <form asp-action="Create">
+                    <form asp-action="CreateOpp">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
-                            <label asp-for="OppForm.Title" class="control-label"></label>
-                            <input asp-for="OppForm.Title" class="form-control" />
-                            <span asp-validation-for="OppForm.Title" class="text-danger"></span>
+                            <label asp-for="@Model.OppForm.Title" class="control-label"></label>
+                            <input asp-for="@Model.OppForm.Title" class="form-control" />
+                            <span asp-validation-for="@Model.OppForm.Title" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="OppForm.Description" class="control-label"></label>
-                            <input asp-for="OppForm.Description" class="form-control" />
-                            <span asp-validation-for="OppForm.Description" class="text-danger"></span>
+                            <label asp-for="@Model.OppForm.Description" class="control-label"></label>
+                            <input asp-for="@Model.OppForm.Description" class="form-control" />
+                            <span asp-validation-for="@Model.OppForm.Description" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="OppForm.ApplicationLink" class="control-label"></label>
-                            <input asp-for="OppForm.ApplicationLink" class="form-control" />
-                            <span asp-validation-for="OppForm.ApplicationLink" class="text-danger"></span>
+                            <label asp-for="@Model.OppForm.ApplicationLink" class="control-label">Application Link</label>
+                            <input asp-for="@Model.OppForm.ApplicationLink" class="form-control" />
+                            <span asp-validation-for="@Model.OppForm.ApplicationLink" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="OppForm.StartDate" class="control-label"></label>
-                            <input asp-for="OppForm.StartDate" class="form-control" />
-                            <span asp-validation-for="OppForm.StartDate" class="text-danger"></span>
+                            <label asp-for="@Model.OppForm.StartDate" class="control-label">Start Date</label>
+                            <input asp-for="@Model.OppForm.StartDate" type="date" class="form-control" />
+                            <span asp-validation-for="@Model.OppForm.StartDate" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="OppForm.EndDate" class="control-label"></label>
-                            <input asp-for="OppForm.EndDate" class="form-control" />
-                            <span asp-validation-for="OppForm.EndDate" class="text-danger"></span>
+                            <label asp-for="@Model.OppForm.EndDate" class="control-label">End Date</label>
+                            <input asp-for="@Model.OppForm.EndDate" type="date" class="form-control" />
+                            <span asp-validation-for="@Model.OppForm.EndDate" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="OppForm.AgeRange" class="control-label"></label>
-                            <input asp-for="OppForm.AgeRange" class="form-control" />
-                            <span asp-validation-for="OppForm.AgeRange" class="text-danger"></span>
+                            <label asp-for="@Model.OppForm.AgeRange" class="control-label">Age Range</label>
+                            <input asp-for="@Model.OppForm.AgeRange" class="form-control" />
+                            <span asp-validation-for="@Model.OppForm.AgeRange" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="OppForm.SubjectId" class="control-label"></label>
-                            <select asp-for="OppForm.SubjectId" class="form-control" asp-items="@Model.OppForm.SubjectOptions">
+                            <label asp-for="@Model.OppForm.SubjectId" class="control-label">Subject</label>
+                            <select asp-for="@Model.OppForm.SubjectId" class="form-control" asp-items="@Model.OppForm.SubjectOptions">
                                 <option disabled>Select the subject</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label asp-for="OppForm.ProgramTypeId" class="control-label"></label>
-                            <select asp-for="OppForm.ProgramTypeId" class="form-control" asp-items="@Model.OppForm.ProgramTypeOptions">
+                            <label asp-for="@Model.OppForm.ProgramTypeId" class="control-label">Program Type</label>
+                            <select asp-for="@Model.OppForm.ProgramTypeId" class="form-control" asp-items="@Model.OppForm.ProgramTypeOptions">
                                 <option disabled>Select a program type</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label asp-for="OppForm.ApplicationDeadline" class="control-label"></label>
-                            <input asp-for="OppForm.ApplicationDeadline" class="form-control" />
-                            <span asp-validation-for="OppForm.ApplicationDeadline" class="text-danger"></span>
+                            <input asp-for="@Model.OppForm.ApplicationDeadline" type="date" class="form-control" />
+                            <span asp-validation-for="@Model.OppForm.ApplicationDeadline" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <input type="submit" value="Create" class="btn btn-primary" />
                         </div>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Add</button>
-                </div>
+
             </div>
         </div>
     </div>

@@ -63,42 +63,45 @@ namespace FullStackCapstone.Controllers
             return View();
         }
 
-        // GET: Opportunties/Create
+        //GET: Opportunties/Create
         public async Task<ActionResult> Create()
         {
 
-            var ProgramTypes = await _context.ProgramType
-                .Select(pt => new SelectListItem() { Text = pt.Title, Value = pt.Id.ToString() })
-                .ToListAsync();
+         
 
-            var SubjectTypes = await _context.Subject
-               .Select(s => new SelectListItem() { Text = s.Title, Value = s.Id.ToString() })
-               .ToListAsync();
-
-            var viewModel = new OppFormViewModel()
-            {
-                ProgramTypeOptions = ProgramTypes, 
-                SubjectOptions = SubjectTypes
-                
-            }; 
-
-            return View(viewModel);
+            return View();
         }
 
         // POST: Opportunties/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(IFormCollection collection)
+        public async Task<ActionResult> CreateOpp(OppListAndCreateFormViewModel OppViewForm)
         {
             try
             {
-                // TODO: Add insert logic here
+                var opp = new Opportunity
+                {
+                    Title = OppViewForm.OppForm.Title, 
+                    Description = OppViewForm.OppForm.Description, 
+                    ApplicationLink = OppViewForm.OppForm.ApplicationLink, 
+                    StartDate = OppViewForm.OppForm.StartDate, 
+                    EndDate = OppViewForm.OppForm.EndDate, 
+                    AgeRange = OppViewForm.OppForm.AgeRange, 
+                    SubjectId = OppViewForm.OppForm.SubjectId, 
+                    ProgramTypeId = OppViewForm.OppForm.ProgramTypeId, 
+                    IsActive = true, 
+                    ApplicationDeadline = OppViewForm.OppForm.ApplicationDeadline
+
+                };
+
+                _context.Opportunity.Add(opp);
+                await _context.SaveChangesAsync(); 
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return RedirectToAction(nameof(Index));
             }
         }
 
