@@ -13,7 +13,8 @@
 
 @if (SignInManager.IsSignedIn(User) && UserManager.GetUserAsync(User).Result.IsAdmin)
 {
-    <a class="btn btn bg-primary" asp-controller="Opportunities" asp-action="Create" > Add New Summer Opportunity</a>
+    @*<a class="btn btn bg-primary" asp-controller="Opportunities" asp-action="Create"> Add New Summer Opportunity</a>*@
+    <button class="btn btn bg-primary" id="btnShowModal" > Add New Summer Opportunity</button>
     <br />
     <div class="oppCards" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content:space-evenly">
 
