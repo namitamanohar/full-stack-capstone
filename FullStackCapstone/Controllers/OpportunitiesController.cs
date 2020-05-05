@@ -32,9 +32,27 @@ namespace FullStackCapstone.Controllers
         {
             var opps = await _context.Opportunity.
                 Include(o => o.Subject)
-                .Include(o => o.ProgramType).ToListAsync(); 
-                            
-            return View(opps);
+                .Include(o => o.ProgramType).ToListAsync();
+
+            var ProgramTypes = await _context.ProgramType
+          .Select(pt => new SelectListItem() { Text = pt.Title, Value = pt.Id.ToString() })
+          .ToListAsync();
+
+            var SubjectTypes = await _context.Subject
+               .Select(s => new SelectListItem() { Text = s.Title, Value = s.Id.ToString() })
+               .ToListAsync();
+
+            var viewModel = new OppListAndCreateFormViewModel()
+            {
+                Opportunities = opps,
+                OppForm = new OppFormViewModel()
+                {
+                    SubjectOptions = SubjectTypes, 
+                    ProgramTypeOptions = ProgramTypes
+                }
+
+            };
+            return View(viewModel);
 
 
         }
