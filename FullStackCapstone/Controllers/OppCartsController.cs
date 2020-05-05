@@ -111,15 +111,21 @@ namespace FullStackCapstone.Controllers
         // POST: OppCarts/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> DeleteFromCart(int id, IFormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
+                var user = await GetCurrentUserAsync();
+                var UserOpps = await _context.OppCart.Where(oc => oc.UserId == user.Id).ToListAsync();
+                var OppToDelete = UserOpps.FirstOrDefault(uo => uo.OpportunityId == id);
 
-                return RedirectToAction(nameof(Index));
+                _context.OppCart.Remove(OppToDelete);
+                await _context.SaveChangesAsync(); 
+
+
+                return RedirectToAction("Index", "Opportunities");
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }

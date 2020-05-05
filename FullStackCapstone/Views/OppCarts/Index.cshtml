@@ -37,13 +37,11 @@
                     <input type="checkbox" value="true" asp-for="@item.IsComplete" />
                 </td>
                 <td>
-
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    <form asp-controller="OppCarts" asp-route-id="@item.OpportunityId" asp-action="DeleteFromCart">
+                        <input type="submit" class="btn btn-danger" value="Delete" />
+                    </form>
                 </td>
             </tr>
-
-
         }
     </tbody>
 </table>

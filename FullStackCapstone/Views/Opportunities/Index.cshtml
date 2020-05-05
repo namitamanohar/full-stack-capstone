@@ -127,20 +127,24 @@
                     <a type="button" class="btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
                     <a type="button" class="btn btn-warning" asp-controller="Opportunities" asp-action="">Program Details</a>
                     @* change from add to cart to Added if the  *@
-                <form asp-controller="OppCarts" asp-route-id="@item.Id" asp-action="AddToCart">
-
 
                     @if (Model.OppCartItems.FirstOrDefault(oc => oc.OpportunityId == item.Id) != null)
                     {
-                        <input disabled class=" btn btn-secondary" value="Added" />
+                        <form asp-controller="OppCarts" asp-route-id="@item.Id" asp-action="DeleteFromCart">
+
+                            <input type="submit" class=" btn btn-light" value="Added" />
+
+                        </form>
                     }
                     else
                     {
-                        <input type="submit" class=" btn btn-light" value="Add to Cart" />
+                        <form asp-controller="OppCarts" asp-route-id="@item.Id" asp-action="AddToCart">
+
+                            <input type="submit" class=" btn btn-light" value="Add to Cart" />
+
+                        </form>
                     }
 
-
-                </form>
 
 
                 </div>
