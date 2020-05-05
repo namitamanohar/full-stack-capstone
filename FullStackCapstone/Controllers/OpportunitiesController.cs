@@ -30,6 +30,13 @@ namespace FullStackCapstone.Controllers
         // GET: Opportunties
         public async Task<ActionResult> Index()
         {
+
+            var user = await GetCurrentUserAsync();
+
+            var OppCartItems = await _context.OppCart
+                .Where(oc => oc.UserId == user.Id)
+                .ToListAsync(); 
+
             var opps = await _context.Opportunity.
                 Include(o => o.Subject)
                 .Include(o => o.ProgramType).ToListAsync();
@@ -49,7 +56,8 @@ namespace FullStackCapstone.Controllers
                 {
                     SubjectOptions = SubjectTypes, 
                     ProgramTypeOptions = ProgramTypes
-                }
+                }, 
+                OppCartItems = OppCartItems
 
             };
             return View(viewModel);

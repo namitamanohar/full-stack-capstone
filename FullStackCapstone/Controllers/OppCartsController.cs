@@ -33,6 +33,7 @@ namespace FullStackCapstone.Controllers
             var oppCartItems = await _context.OppCart
                 .Where(o => o.UserId == user.Id)
                 .Include(o => o.Opportunity)
+                .ThenInclude(o => o.Subject)
                 .ToListAsync(); 
 
             return View(oppCartItems);
@@ -53,16 +54,24 @@ namespace FullStackCapstone.Controllers
         // POST: OppCarts/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddToCart (Opportunity opp)
+        public async Task<ActionResult> AddToCart (int id, Opportunity opp)
         {
             try
             {
-                
+                var Opp = _context.Opportunity.FirstOrDefault(o => o.Id == id);
+                var user = await GetCurrentUserAsync(); 
+
                 var OppCart = new OppCart
                 {
+                    OpportunityId = Opp.Id, 
+                    UserId = user.Id, 
+                    IsComplete = false 
+                };
 
-                }
-                return RedirectToAction(nameof(Index));
+                _context.OppCart.Add(OppCart);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index", "Opportunities");
             }
             catch
             {

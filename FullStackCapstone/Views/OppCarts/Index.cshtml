@@ -34,7 +34,7 @@
                     @Html.DisplayFor(modelItem => item.Opportunity.ApplicationDeadline)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IsComplete)
+                    <input type="checkbox" value="true" asp-for="@item.IsComplete" />
                 </td>
                 <td>
 
