@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
-@model IEnumerable<FullStackCapstone.Models.Opportunity>
+@model FullStackCapstone.Models.ViewModels.OppListAndCreateFormViewModel
 
 
 @{
@@ -13,9 +13,83 @@
 
 @if (SignInManager.IsSignedIn(User) && UserManager.GetUserAsync(User).Result.IsAdmin)
 {
+    @*<a class="btn btn bg-primary" asp-controller="Opportunities" asp-action="Create"> Add New Summer Opportunity</a>*@
+    <a href="#" class="btn btn bg-primary" data-target="#CreateOppFormModal" data-toggle="modal"> Add New Summer Opportunity</a>
+    <div class="modal" id="CreateOppFormModal" role="dialog">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create your opportunity</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="OppForm.Title" class="control-label"></label>
+                            <input asp-for="OppForm.Title" class="form-control" />
+                            <span asp-validation-for="OppForm.Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OppForm.Description" class="control-label"></label>
+                            <input asp-for="OppForm.Description" class="form-control" />
+                            <span asp-validation-for="OppForm.Description" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OppForm.ApplicationLink" class="control-label"></label>
+                            <input asp-for="OppForm.ApplicationLink" class="form-control" />
+                            <span asp-validation-for="OppForm.ApplicationLink" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OppForm.StartDate" class="control-label"></label>
+                            <input asp-for="OppForm.StartDate" class="form-control" />
+                            <span asp-validation-for="OppForm.StartDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OppForm.EndDate" class="control-label"></label>
+                            <input asp-for="OppForm.EndDate" class="form-control" />
+                            <span asp-validation-for="OppForm.EndDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OppForm.AgeRange" class="control-label"></label>
+                            <input asp-for="OppForm.AgeRange" class="form-control" />
+                            <span asp-validation-for="OppForm.AgeRange" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OppForm.SubjectId" class="control-label"></label>
+                            <select asp-for="OppForm.SubjectId" class="form-control" asp-items="@Model.OppForm.SubjectOptions">
+                                <option disabled>Select the subject</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OppForm.ProgramTypeId" class="control-label"></label>
+                            <select asp-for="OppForm.ProgramTypeId" class="form-control" asp-items="@Model.OppForm.ProgramTypeOptions">
+                                <option disabled>Select a program type</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OppForm.ApplicationDeadline" class="control-label"></label>
+                            <input asp-for="OppForm.ApplicationDeadline" class="form-control" />
+                            <span asp-validation-for="OppForm.ApplicationDeadline" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br />
     <div class="oppCards" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content:space-evenly">
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.Opportunities)
         {
 
             <div class="card border-primary mb-3" style="max-width: 20rem;">
@@ -24,7 +98,7 @@
                     <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
                     <p class="card-text">Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
-                    <a type="button" class="btn btn-info" href="@item.ApplicationLink" target="_blank">Apply</a>
+                    <a type="button" class="btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
                     <a type="button" class="btn btn-warning" asp-controller="Opportunities" asp-action="">Program Details</a>
                     <br />
                     <a type="button" class="btn btn-secondary" asp-controller="Opportunities" asp-action="">Edit </a>
@@ -36,13 +110,16 @@
     </div>
 }
 
+
+
 @if (SignInManager.IsSignedIn(User) && !UserManager.GetUserAsync(User).Result.IsAdmin)
 {
 
     <div class="oppCards" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content:space-evenly">
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.Opportunities)
         {
+
 
             <div class="card border-primary mb-3" style="max-width: 20rem;">
                 <div class="card-header">@Html.DisplayFor(modelItem => item.Subject.Title) @Html.DisplayFor(modelItem => item.ProgramType.Title)</div>
@@ -50,11 +127,12 @@
                     <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
                     <p class="card-text">Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
-                    <a type="button" class="btn btn-info" href="@item.ApplicationLink" target="_blank">Apply</a>
+                    <a type="button" class="btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
                     <a type="button" class="btn btn-warning" asp-controller="Opportunities" asp-action="">Program Details</a>
                     <a type="button" class="btn btn-primary" asp-controller="" asp-action="">Add to Cart</a>
                 </div>
             </div>
+
 
         }
     </div>
@@ -65,8 +143,7 @@
 {
 
     <div class="oppCards" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content:space-evenly">
-
-        @foreach (var item in Model)
+        @foreach (var item in Model.Opportunities)
         {
 
             <div class="card border-primary mb-3" style="max-width: 20rem;">
@@ -75,13 +152,15 @@
                     <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
                     <p class="card-text">Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
-                    <a type="button" class="btn btn-info" href="@item.ApplicationLink" target="_blank">Apply</a>
+                    <a type="button" class="btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
                     <a type="button" class="btn btn-warning" asp-controller="Opportunities" asp-action="">Program Details</a>
                 </div>
             </div>
 
+
         }
     </div>
+
 
 
 }
