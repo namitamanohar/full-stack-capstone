@@ -11,5 +11,7 @@ namespace FullStackCapstone.Models.ViewModels
         public List<Opportunity> Opportunities { get; set; }
 
         public OppFormViewModel OppForm { get; set; }
+
+        public List<OppCart> OppCartItems { get; set; }
     }
 }
