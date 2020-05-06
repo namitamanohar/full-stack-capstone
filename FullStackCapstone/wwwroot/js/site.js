@@ -3,7 +3,6 @@
 
 // Write your JavaScript code.
 
-
 const allEditButtons = document.querySelectorAll(".editButton");
 
 allEditButtons.forEach(eb => {
@@ -26,7 +25,6 @@ allEditButtons.forEach(eb => {
         document.getElementById("edit-applicationLink").value = data.applicationLink 
         document.getElementById("edit-startDate").value = data.startDate
         document.getElementById("edit-endDate").value = data.endDate
-  
         document.getElementById("edit-ageRange").value = data.ageRange
         document.getElementById("edit-subjectId").value = data.subjectId
         document.getElementById("edit-programId").value = data.programTypeId
