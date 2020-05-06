@@ -28,14 +28,11 @@ namespace FullStackCapstone.Controllers
         }
 
         // GET: Opportunties
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int id)
         {
 
             var user = await GetCurrentUserAsync();
 
-            var OppCartItems = await _context.OppCart
-                .Where(oc => oc.UserId == user.Id)
-                .ToListAsync(); 
 
             var opps = await _context.Opportunity.
                 Include(o => o.Subject)
@@ -56,14 +53,59 @@ namespace FullStackCapstone.Controllers
                 {
                     SubjectOptions = SubjectTypes, 
                     ProgramTypeOptions = ProgramTypes
-                }, 
-                OppCartItems = OppCartItems
+                }
 
             };
+
+  
+            if( id > 0)
+            {
+
+                var oppItem = await _context.Opportunity.FirstOrDefaultAsync(o => o.Id == id );
+
+                viewModel.OppForm.Id = id;
+                viewModel.OppForm.Title = oppItem.Title;
+                viewModel.OppForm.Description = oppItem.Description;
+                viewModel.OppForm.StartDate = oppItem.StartDate;
+                viewModel.OppForm.EndDate = oppItem.EndDate;
+                viewModel.OppForm.ApplicationLink = oppItem.ApplicationLink;
+                viewModel.OppForm.ApplicationDeadline = oppItem.ApplicationDeadline;
+                viewModel.OppForm.AgeRange = oppItem.AgeRange;
+                viewModel.OppForm.IsActive = oppItem.IsActive;
+                viewModel.OppForm.ProgramTypeId = oppItem.ProgramTypeId;
+                viewModel.OppForm.SubjectId = oppItem.SubjectId;
+                viewModel.OppForm.SubjectOptions = SubjectTypes;
+                viewModel.OppForm.ProgramTypeOptions = ProgramTypes; 
+
+
+            }
+            
+
+            if (user != null)
+            {
+
+                var OppCartItems = await _context.OppCart
+                    .Where(oc => oc.UserId == user.Id)
+                    .ToListAsync();
+                viewModel.OppCartItems = OppCartItems; 
+
+            }
             return View(viewModel);
 
 
         }
+
+        [HttpGet] // this action result returns the partial containing the modal
+        public ActionResult EditOpp(int id)
+        {
+            var viewModel = new EditOppViewModel();
+            viewModel.Id = id;
+            return PartialView("_EditOppPartial", viewModel);
+        }
+
+
+
+      
 
         // GET: Opportunties/Details/5
         public async Task<ActionResult> Details(int id)
@@ -116,21 +158,68 @@ namespace FullStackCapstone.Controllers
         // GET: Opportunties/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            var oppItem = await _context.Opportunity.FirstOrDefaultAsync(o => o.Id == id);
+
+            var user = await GetCurrentUserAsync();
+
+            var ProgramTypes = await _context.ProgramType
+        .Select(pt => new SelectListItem() { Text = pt.Title, Value = pt.Id.ToString() })
+        .ToListAsync();
+
+            var SubjectTypes = await _context.Subject
+               .Select(s => new SelectListItem() { Text = s.Title, Value = s.Id.ToString() })
+               .ToListAsync();
+
+            var viewModel = new OppFormViewModel()
+            {
+                Id = id, 
+                Title = oppItem.Title, 
+                Description = oppItem.Description, 
+                StartDate = oppItem.StartDate, 
+                EndDate = oppItem.EndDate, 
+                ApplicationLink = oppItem.ApplicationLink, 
+                ApplicationDeadline = oppItem.ApplicationDeadline, 
+                AgeRange = oppItem.AgeRange,
+                IsActive = oppItem.IsActive,
+                ProgramTypeOptions = ProgramTypes, 
+                ProgramTypeId = oppItem.ProgramTypeId, 
+                SubjectOptions = SubjectTypes, 
+                SubjectId = oppItem.SubjectId
+            };
+//return the JSon representation
+
+            return Ok(viewModel);
         }
 
         // POST: Opportunties/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> EditOpp( OppListAndCreateFormViewModel OppListandForm)
         {
             try
             {
-                // TODO: Add update logic here
+                var editedOpp = new Opportunity()
+                {
+                    Id = OppListandForm.OppForm.Id, 
+                    Title = OppListandForm.OppForm.Title, 
+                    Description = OppListandForm.OppForm.Description, 
+                    ApplicationLink = OppListandForm.OppForm.ApplicationLink,
+                    AgeRange = OppListandForm.OppForm.AgeRange, 
+                    SubjectId = OppListandForm.OppForm.SubjectId, 
+                    ProgramTypeId = OppListandForm.OppForm.ProgramTypeId, 
+                    ApplicationDeadline = OppListandForm.OppForm.ApplicationDeadline, 
+                    StartDate = OppListandForm.OppForm.StartDate, 
+                    EndDate = OppListandForm.OppForm.EndDate, 
+                    IsActive = true
+
+                };
+
+                _context.Opportunity.Update(editedOpp);
+                await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(Exception ex)
             {
                 return View();
             }
