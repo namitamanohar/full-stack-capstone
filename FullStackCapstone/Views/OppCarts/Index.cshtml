@@ -34,7 +34,22 @@
                     @Html.DisplayFor(modelItem => item.Opportunity.ApplicationDeadline)
                 </td>
                 <td>
-                    <input type="checkbox" value="true" asp-for="@item.IsComplete" />
+                    @if (item.IsComplete == false)
+                    {
+
+                        <form asp-action="CompleteOpp" asp-route-id="@item.OpportunityId">
+                            <input type="submit" value="Not Done" />
+                        </form>
+
+                    }
+                    else
+                    {
+                        <form asp-action="" asp-route-id="@item.OpportunityId">
+                            <input  type="checkbox" checked />
+                        </form>
+                    }
+
+
                 </td>
                 <td>
                     <form asp-controller="OppCarts" asp-route-id="@item.OpportunityId" asp-action="DeleteFromCart">
