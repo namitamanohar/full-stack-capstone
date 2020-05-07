@@ -3,7 +3,6 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @model FullStackCapstone.Models.ViewModels.OppListAndCreateFormViewModel
 
-
 @{
     ViewData["Title"] = "Index";
 }
@@ -13,8 +12,9 @@
 
 @if (SignInManager.IsSignedIn(User) && UserManager.GetUserAsync(User).Result.IsAdmin)
 {
-   
-    <a href="#" class="btn btn bg-primary" data-target="#CreateOppFormModal" data-toggle="modal"> Add New Summer Opportunity</a>
+
+    <a href="#" class="btn btn bg-primary createButton" data-target="#CreateOppFormModal" data-toggle="modal"> Add New Summer Opportunity</a>
+    <br />
     <div class="modal" id="CreateOppFormModal" role="dialog">
         <div class="modal-dialog">
 
@@ -44,12 +44,12 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="@Model.OppForm.StartDate" class="control-label">Start Date</label>
-                            <input asp-for="@Model.OppForm.StartDate" type="date" class="form-control" />
+                            <input id="create-startDate" asp-for="@Model.OppForm.StartDate" type="date" class="form-control" />
                             <span asp-validation-for="@Model.OppForm.StartDate" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="@Model.OppForm.EndDate" class="control-label">End Date</label>
-                            <input asp-for="@Model.OppForm.EndDate" type="date" class="form-control" />
+                            <input id="create-endDate"  asp-for="@Model.OppForm.EndDate" type="date" class="form-control" />
                             <span asp-validation-for="@Model.OppForm.EndDate" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -71,7 +71,7 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="@Model.OppForm.ApplicationDeadline" class="control-label">Application Deadline</label>
-                            <input asp-for="@Model.OppForm.ApplicationDeadline" type="date" class="form-control" />
+                            <input id="create-appDeadline"  asp-for="@Model.OppForm.ApplicationDeadline" type="date" class="form-control" />
                             <span asp-validation-for="@Model.OppForm.ApplicationDeadline" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -99,16 +99,15 @@
                     <a type="button" class="btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
                     <a type="button" class="btn btn-warning" asp-controller="Opportunities" asp-action="">Program Details</a>
                     <br />
-                    <form asp-action="Index" asp-route-id="@item.Id">
-
-                        <button type="button" id="editButton--@item.Id" class="editButton btn btn-primary" data-toggle="modal" data-target="#EditOppFormModal">
+                    <form>
+                        <button type="button" id="editButton--@item.Id"  class="editButton btn btn-primary" data-toggle="modal" data-target="#EditOppFormModal">
                             Edit Button
                         </button>
 
                     </form>
 
 
-                    <a type="button" class="btn btn-primary" asp-controller="Opportunities" asp-action="">Delete</a>
+                    @*a type="button" class="btn btn-primary" asp-controller="Opportunities" asp-action="">Delete</a>*@
                 </div>
             </div>
 
@@ -123,8 +122,8 @@
                     </div>
                     <div class="modal-body">
                         @* pass asp-route *@
-                        <form asp-action="EditOpp" >
-                            <input id="edit-id" hidden asp-for="@Model.OppForm.Id"/>
+                        <form asp-action="EditOpp">
+                            <input id="edit-id" hidden asp-for="@Model.OppForm.Id" />
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group">
                                 <label asp-for="@Model.OppForm.Title" class="control-label"></label>
@@ -259,6 +258,8 @@
 
 
 }
+
+
 
 
 

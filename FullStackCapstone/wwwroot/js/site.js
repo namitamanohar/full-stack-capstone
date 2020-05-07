@@ -5,6 +5,29 @@
 
 const allEditButtons = document.querySelectorAll(".editButton");
 
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); 
+var yyyy = today.getFullYear();
+
+today = yyyy + '-' + mm + '-' + dd;
+
+const createButton = document.querySelectorAll(".createButton");
+
+createButton.forEach(cb => {
+    cb.addEventListener("click", async e => {
+
+
+
+        document.getElementById("create-startDate").value = today
+        document.getElementById("create-endDate").value = today 
+        document.getElementById("create-appDeadline").value = today 
+
+    })
+})
+
+
+
 allEditButtons.forEach(eb => {
     eb.addEventListener("click", async e => {
 
@@ -23,12 +46,12 @@ allEditButtons.forEach(eb => {
         document.getElementById("edit-title").value = data.title 
         document.getElementById("edit-description").value = data.description 
         document.getElementById("edit-applicationLink").value = data.applicationLink 
-        document.getElementById("edit-startDate").value = data.startDate
-        document.getElementById("edit-endDate").value = data.endDate
+        document.getElementById("edit-startDate").value = data.startDate.split("T")[0]
+        document.getElementById("edit-endDate").value = data.endDate.split("T")[0]
         document.getElementById("edit-ageRange").value = data.ageRange
         document.getElementById("edit-subjectId").value = data.subjectId
         document.getElementById("edit-programId").value = data.programTypeId
-        document.getElementById("edit-applicationDeadline").value = data.applicationDeadline
+        document.getElementById("edit-applicationDeadline").value = data.applicationDeadline.split("T")[0]
 
 
             

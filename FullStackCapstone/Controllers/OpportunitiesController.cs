@@ -28,7 +28,7 @@ namespace FullStackCapstone.Controllers
         }
 
         // GET: Opportunties
-        public async Task<ActionResult> Index(int id)
+        public async Task<ActionResult> Index(string searchBar)
         {
 
             var user = await GetCurrentUserAsync();
@@ -51,33 +51,23 @@ namespace FullStackCapstone.Controllers
                 Opportunities = opps,
                 OppForm = new OppFormViewModel()
                 {
-                    SubjectOptions = SubjectTypes, 
+                    SubjectOptions = SubjectTypes,
                     ProgramTypeOptions = ProgramTypes
                 }
 
             };
 
-  
-            if( id > 0)
+
+            if (searchBar != null)
             {
 
-                var oppItem = await _context.Opportunity.FirstOrDefaultAsync(o => o.Id == id );
+                var filteredOpps = await _context.Opportunity
+                    .Include(o => o.Subject)
+                    .Include(o => o.ProgramType)
+                    .Where(o => o.Subject.Title
+                    .Contains(searchBar) || o.Description.Contains(searchBar) || o.Title.Contains(searchBar) || o.ProgramType.Title.Contains(searchBar) ).ToListAsync();
 
-                viewModel.OppForm.Id = id;
-                viewModel.OppForm.Title = oppItem.Title;
-                viewModel.OppForm.Description = oppItem.Description;
-                viewModel.OppForm.StartDate = oppItem.StartDate;
-                viewModel.OppForm.EndDate = oppItem.EndDate;
-                viewModel.OppForm.ApplicationLink = oppItem.ApplicationLink;
-                viewModel.OppForm.ApplicationDeadline = oppItem.ApplicationDeadline;
-                viewModel.OppForm.AgeRange = oppItem.AgeRange;
-                viewModel.OppForm.IsActive = oppItem.IsActive;
-                viewModel.OppForm.ProgramTypeId = oppItem.ProgramTypeId;
-                viewModel.OppForm.SubjectId = oppItem.SubjectId;
-                viewModel.OppForm.SubjectOptions = SubjectTypes;
-                viewModel.OppForm.ProgramTypeOptions = ProgramTypes; 
-
-
+                viewModel.Opportunities = filteredOpps; 
             }
             
 
@@ -95,13 +85,6 @@ namespace FullStackCapstone.Controllers
 
         }
 
-        [HttpGet] // this action result returns the partial containing the modal
-        public ActionResult EditOpp(int id)
-        {
-            var viewModel = new EditOppViewModel();
-            viewModel.Id = id;
-            return PartialView("_EditOppPartial", viewModel);
-        }
 
 
 
