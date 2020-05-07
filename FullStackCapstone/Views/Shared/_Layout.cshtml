@@ -3,6 +3,8 @@
 @inject UserManager<ApplicationUser> UserManager
 
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,15 +13,13 @@
     <title>Melan.In</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-minty.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    
+    <link href="~/css/css/all.css" rel="stylesheet">
 </head>
 <body>
     <header>
-
-
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FullStackCapstone</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Melan.In</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -27,37 +27,39 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
-                        @if (SignInManager.IsSignedIn(User) && !UserManager.GetUserAsync(User).Result.IsAdmin )
+                        @if (SignInManager.IsSignedIn(User) && !UserManager.GetUserAsync(User).Result.IsAdmin)
                         {
 
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Opportunities" asp-action="Index">Summer Opps</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="OppCarts" asp-action="Index">Opportunity Cart</a>
-                                </li>
-
-                        
-
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Opportunities" asp-action="Index">Summer Opps</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="OppCarts" asp-action="Index">Opportunity Cart</a>
+                            </li>
+                            <form class="form-inline my-2 my-lg-0">
+                                <input class="form-control mr-sm-2" type="text" placeholder="Search" name="searchBar">
+                                <button class="btn btn-secondary my-2 my-sm-0" asp-controller="Opportunities" asp-action="Index" type="submit">Search</button>
+                            </form>
 
                         }
                         @if (SignInManager.IsSignedIn(User) && UserManager.GetUserAsync(User).Result.IsAdmin)
                         {
 
 
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Opportunities" asp-action="Index">Summer Opps</a>
-                                </li>
-                          
+                    <li class="nav-item">
+                        
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Opportunities" asp-action="Index">Summer Opps</a>
+                    </li>
+
 
                         }
 
                         @if (!SignInManager.IsSignedIn(User))
                         {
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Opportunities" asp-action="Index">Summer Opps</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Opportunities" asp-action="Index">Summer Opps</a>
+                            </li>
 
                         }
 
