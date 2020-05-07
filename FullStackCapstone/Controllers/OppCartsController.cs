@@ -85,20 +85,27 @@ namespace FullStackCapstone.Controllers
             return View();
         }
 
-        // POST: OppCarts/Edit/5
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> CompleteOpp(int id)
         {
             try
             {
-                // TODO: Add update logic here
+                var user = await GetCurrentUserAsync();
+                var oppToEdit = await _context.OppCart.FirstOrDefaultAsync(oc => oc.OpportunityId == id && oc.UserId == user.Id);
+
+                oppToEdit.IsComplete = true; 
+
+
+                _context.OppCart.Update(oppToEdit);
+                await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                return RedirectToAction(nameof(Index));
             }
         }
 
