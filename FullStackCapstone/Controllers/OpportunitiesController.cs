@@ -36,7 +36,9 @@ namespace FullStackCapstone.Controllers
 
             var opps = await _context.Opportunity.
                 Include(o => o.Subject)
-                .Include(o => o.ProgramType).ToListAsync();
+                .Include(o => o.ProgramType)
+                .OrderBy(o => o.ApplicationDeadline)
+                .ToListAsync();
 
             var ProgramTypes = await _context.ProgramType
           .Select(pt => new SelectListItem() { Text = pt.Title, Value = pt.Id.ToString() })
@@ -128,7 +130,10 @@ namespace FullStackCapstone.Controllers
                 };
 
                 _context.Opportunity.Add(opp);
-                await _context.SaveChangesAsync(); 
+                await _context.SaveChangesAsync();
+
+                TempData["OppCreated"] = "You have added a summer program"; 
+
 
                 return RedirectToAction(nameof(Index));
             }
@@ -199,6 +204,9 @@ namespace FullStackCapstone.Controllers
 
                 _context.Opportunity.Update(editedOpp);
                 await _context.SaveChangesAsync();
+
+                TempData["OppEdited"] = "You have edited a summer program";
+
 
                 return RedirectToAction(nameof(Index));
             }

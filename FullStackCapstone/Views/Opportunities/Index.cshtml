@@ -9,6 +9,21 @@
 
 <h1>MELAN.IN</h1>
 
+@if (TempData.ContainsKey("OppCreated"))
+{
+    <div class="alert alert-dismissible alert-primary">
+        @TempData["OppCreated"]
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    </div>
+}
+
+@if (TempData.ContainsKey("OppEdited"))
+{
+    <div class="alert alert-dismissible alert-primary">
+        @TempData["OppEdited"]
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    </div>
+}
 
 @if (SignInManager.IsSignedIn(User) && UserManager.GetUserAsync(User).Result.IsAdmin)
 {
@@ -49,7 +64,7 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="@Model.OppForm.EndDate" class="control-label">End Date</label>
-                            <input id="create-endDate"  asp-for="@Model.OppForm.EndDate" type="date" class="form-control" />
+                            <input id="create-endDate" asp-for="@Model.OppForm.EndDate" type="date" class="form-control" />
                             <span asp-validation-for="@Model.OppForm.EndDate" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -71,7 +86,7 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="@Model.OppForm.ApplicationDeadline" class="control-label">Application Deadline</label>
-                            <input id="create-appDeadline"  asp-for="@Model.OppForm.ApplicationDeadline" type="date" class="form-control" />
+                            <input id="create-appDeadline" asp-for="@Model.OppForm.ApplicationDeadline" type="date" class="form-control" />
                             <span asp-validation-for="@Model.OppForm.ApplicationDeadline" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -90,14 +105,14 @@
         @foreach (var item in Model.Opportunities)
         {
 
-            <div class="card border-primary mb-3" style="max-width: 20rem;">
+            <div class="card border-primary mb-3" style="max-width: 20rem; min-width: 20rem; min-height: 28rem; max-height: 28rem;">
                 <div class="card-header">@Html.DisplayFor(modelItem => item.Subject.Title) @Html.DisplayFor(modelItem => item.ProgramType.Title)</div>
                 <div class="card-body">
                     <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
                     <p class="card-text">Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
-                    <a type="button" class="btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
-                    <a  class="btn btn-warning" data-toggle="modal" data-target="#DetailsModal">Program Details</a>
+                    <a type="button" class="applyButton btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
+                    <a class="detailsButton btn btn-warning" data-toggle="modal" data-target="#DetailsModal">Program Details</a>
                     <div class="modal" id="DetailsModal" role="dialog">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -116,10 +131,10 @@
                                             <p>@item.Description</p>
                                         </div>
                                         <div class="form-group">
-                                            <p>Program Dates: @Html.DisplayFor(modelItem => item.StartDate)-- @Html.DisplayFor(modelItem => item.EndDate)</p>
+                                            <p><b>Program Dates:</b> @Html.DisplayFor(modelItem => item.StartDate) -- @Html.DisplayFor(modelItem => item.EndDate)</p>
                                         </div>
                                         <div class="form-group">
-                                            <p>Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
+                                            <p><b>Deadline:</b> @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
                                         </div>
                                     </form>
                                 </div>
@@ -130,8 +145,8 @@
 
                     <br />
                     <form>
-                        <input type="image" id="editButton--@item.Id" class="editButton" data-toggle="modal" data-target="#EditOppFormModal" src="~/icons/svg/002-edit.svg"/>
-                            
+                        <input type="image" id="editButton--@item.Id" class="editButton" data-toggle="modal" data-target="#EditOppFormModal" src="~/icons/svg/002-edit.svg" />
+
                     </form>
 
 
@@ -200,7 +215,7 @@
                                 <span asp-validation-for="@Model.OppForm.ApplicationDeadline" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <input type="submit" value="Create" class="btn btn-primary" />
+                                <input type="submit" value="Edit" class="btn btn-primary" />
                             </div>
                         </form>
                     </div>
@@ -228,8 +243,8 @@
                     <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
                     <p class="card-text">Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
-                    <a type="button" class="btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
-                    <a class="btn btn-warning" data-toggle="modal" data-target="#DetailsModal">Program Details</a>
+                    <a type="button" class="applyButton btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
+                    <a class="detailsButton btn btn-warning" data-toggle="modal" data-target="#DetailsModal">Program Details</a>
                     <div class="modal" id="DetailsModal" role="dialog">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -248,7 +263,7 @@
                                             <p>@item.Description</p>
                                         </div>
                                         <div class="form-group">
-                                            <p>Program Dates: @Html.DisplayFor(modelItem => item.StartDate)-- @Html.DisplayFor(modelItem => item.EndDate)</p>
+                                            <p>Program Dates: @Html.DisplayFor(modelItem => item.StartDate) -- @Html.DisplayFor(modelItem => item.EndDate)</p>
                                         </div>
                                         <div class="form-group">
                                             <p>Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
@@ -301,8 +316,8 @@
                     <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
                     <p class="card-text">Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
-                    <a type="button" class="btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
-                    <a class="btn btn-warning" data-toggle="modal" data-target="#DetailsModal">Program Details</a>
+                    <a type="button" class="applyButton btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
+                    <a class="detailsButton btn btn-warning" data-toggle="modal" data-target="#DetailsModal">Program Details</a>
                     <div class="modal" id="DetailsModal" role="dialog">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -321,7 +336,7 @@
                                             <p>@item.Description</p>
                                         </div>
                                         <div class="form-group">
-                                            <p>Program Dates: @Html.DisplayFor(modelItem => item.StartDate)-- @Html.DisplayFor(modelItem => item.EndDate)</p>
+                                            <p>Program Dates: @Html.DisplayFor(modelItem => item.StartDate) -- @Html.DisplayFor(modelItem => item.EndDate)</p>
                                         </div>
                                         <div class="form-group">
                                             <p>Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
