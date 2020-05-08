@@ -38,22 +38,22 @@
                     {
 
                         <form asp-action="CompleteOpp" asp-route-id="@item.OpportunityId">
-                            <input type="submit" value="Not Done" />
+                            <input type="image" class="emptyBox" src="~/icons/svg/check-box-empty.svg" />
                         </form>
 
                     }
                     else
                     {
-                        <form asp-action="" asp-route-id="@item.OpportunityId">
-                            <input  type="checkbox" checked />
-                        </form>
+
+                        <input disabled class="greenCheck" type="image" src="~/icons/svg/greenCheck.svg" />
+
                     }
 
 
                 </td>
                 <td>
                     <form asp-controller="OppCarts" asp-route-id="@item.OpportunityId" asp-action="DeleteFromCart">
-                        <input type="submit" class="btn btn-danger" value="Delete" />
+                        <input type="image" class="deleteButton" value="Delete" src="~/icons/svg/001-delete.svg" />
                     </form>
                 </td>
             </tr>
@@ -61,6 +61,11 @@
     </tbody>
 </table>
 
+@* dark mode if you wish *@
+@*<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
+<script>
+  new Darkmode().showWidget();
+</script>*@
 
 
 
