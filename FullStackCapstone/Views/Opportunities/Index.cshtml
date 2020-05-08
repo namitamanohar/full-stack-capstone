@@ -97,17 +97,44 @@
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
                     <p class="card-text">Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
                     <a type="button" class="btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
-                    <a type="button" class="btn btn-warning" asp-controller="Opportunities" asp-action="">Program Details</a>
+                    <a  class="btn btn-warning" data-toggle="modal" data-target="#DetailsModal">Program Details</a>
+                    <div class="modal" id="DetailsModal" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Program Details</h5>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <input id="edit-id" hidden asp-for="@Model.OppForm.Id" />
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <div class="form-group">
+                                            <h2>@item.Title</h2>
+                                        </div>
+                                        <div class="form-group">
+                                            <p>@item.Description</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <p>Program Dates: @Html.DisplayFor(modelItem => item.StartDate)-- @Html.DisplayFor(modelItem => item.EndDate)</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <p>Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
                     <br />
                     <form>
-                        <button type="button" id="editButton--@item.Id"  class="editButton btn btn-outline-info" data-toggle="modal" data-target="#EditOppFormModal">
-                           <img class="editIcon" src="~/icons/svg/002-edit.svg"/>
-                        </button>
-
+                        <input type="image" id="editButton--@item.Id" class="editButton" data-toggle="modal" data-target="#EditOppFormModal" src="~/icons/svg/002-edit.svg"/>
+                            
                     </form>
 
 
-                    @*a type="button" class="btn btn-primary" asp-controller="Opportunities" asp-action="">Delete</a>*@
                 </div>
             </div>
 
@@ -202,8 +229,36 @@
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
                     <p class="card-text">Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
                     <a type="button" class="btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
-                    <a type="button" class="btn btn-warning" asp-controller="Opportunities" asp-action="">Program Details</a>
-                    @* change from add to cart to Added if the  *@
+                    <a class="btn btn-warning" data-toggle="modal" data-target="#DetailsModal">Program Details</a>
+                    <div class="modal" id="DetailsModal" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Program Details</h5>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <input id="edit-id" hidden asp-for="@Model.OppForm.Id" />
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <div class="form-group">
+                                            <h2>@item.Title</h2>
+                                        </div>
+                                        <div class="form-group">
+                                            <p>@item.Description</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <p>Program Dates: @Html.DisplayFor(modelItem => item.StartDate)-- @Html.DisplayFor(modelItem => item.EndDate)</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <p>Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>                    @* change from add to cart to Added if the  *@
 
                     @if (Model.OppCartItems.FirstOrDefault(oc => oc.OpportunityId == item.Id) != null)
                     {
@@ -247,7 +302,36 @@
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
                     <p class="card-text">Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
                     <a type="button" class="btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
-                    <a type="button" class="btn btn-warning" asp-controller="Opportunities" asp-action="">Program Details</a>
+                    <a class="btn btn-warning" data-toggle="modal" data-target="#DetailsModal">Program Details</a>
+                    <div class="modal" id="DetailsModal" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Program Details</h5>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+                                        <input id="edit-id" hidden asp-for="@Model.OppForm.Id" />
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <div class="form-group">
+                                            <h2>@item.Title</h2>
+                                        </div>
+                                        <div class="form-group">
+                                            <p>@item.Description</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <p>Program Dates: @Html.DisplayFor(modelItem => item.StartDate)-- @Html.DisplayFor(modelItem => item.EndDate)</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <p>Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

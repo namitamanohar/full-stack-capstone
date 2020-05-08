@@ -34,6 +34,7 @@ namespace FullStackCapstone.Controllers
                 .Where(o => o.UserId == user.Id)
                 .Include(o => o.Opportunity)
                 .ThenInclude(o => o.Subject)
+                .OrderBy(o => o.Opportunity.ApplicationDeadline)
                 .ToListAsync(); 
 
             return View(oppCartItems);
