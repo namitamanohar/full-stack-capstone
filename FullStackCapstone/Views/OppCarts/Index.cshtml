@@ -1,8 +1,19 @@
-﻿@model IEnumerable<FullStackCapstone.Models.OppCart>
+﻿@model FullStackCapstone.Models.ViewModels.OppCartViewModel
 
 @{
     ViewData["Title"] = "Index";
+    double width = (@Model.OppCarts.Count / @Model.OppCartsComplete.Count) * 100; 
+
 }
+
+@if (TempData.ContainsKey("OppDeleted"))
+{
+    <div class="alert alert-dismissible alert-info">
+        @TempData["OppDeleted"]
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    </div>
+}
+
 
 <h1>Summer Programs To Do List</h1>
 <table class="table">
@@ -22,7 +33,7 @@
     </thead>
     <tbody>
 
-        @foreach (var item in Model)
+        @foreach (var item in Model.OppCarts)
         {
 
 
@@ -61,11 +72,17 @@
     </tbody>
 </table>
 
+
+
+<div class="progress">
+    <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: @Model.progressBar%" aria-valuenow="@Model.progressBar" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+
 @* dark mode if you wish *@
 @*<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
-<script>
-  new Darkmode().showWidget();
-</script>*@
+    <script>
+      new Darkmode().showWidget();
+    </script>*@
 
 
 

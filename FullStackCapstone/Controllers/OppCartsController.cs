@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FullStackCapstone.Data;
 using FullStackCapstone.Models;
+using FullStackCapstone.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -35,9 +36,29 @@ namespace FullStackCapstone.Controllers
                 .Include(o => o.Opportunity)
                 .ThenInclude(o => o.Subject)
                 .OrderBy(o => o.Opportunity.ApplicationDeadline)
-                .ToListAsync(); 
+                .ToListAsync();
 
-            return View(oppCartItems);
+            var oppCartItemsComplete = await _context.OppCart
+                .Where(o => o.UserId == user.Id)
+                .Include(o => o.Opportunity)
+                .ThenInclude(o => o.Subject)
+                .Where(o => o.IsComplete == true)
+                .ToListAsync();
+
+            decimal division = Decimal.Divide(oppCartItemsComplete.Count , oppCartItems.Count);
+
+            double divide = 3 / 5; 
+            decimal progressBar = division * 100 ;
+         
+
+            var viewModel = new OppCartViewModel
+            {
+                OppCarts = oppCartItems,
+                OppCartsComplete = oppCartItemsComplete, 
+                progressBar = progressBar
+            };
+
+            return View(viewModel);
         }
 
         // GET: OppCarts/Details/5
@@ -128,10 +149,11 @@ namespace FullStackCapstone.Controllers
                 var OppToDelete = UserOpps.FirstOrDefault(uo => uo.OpportunityId == id);
 
                 _context.OppCart.Remove(OppToDelete);
-                await _context.SaveChangesAsync(); 
+                await _context.SaveChangesAsync();
 
+                TempData["OppDeleted"] = "You deleted an opportunity from your cart"; 
+                return RedirectToAction("Index", "OppCarts");
 
-                return RedirectToAction("Index", "Opportunities");
             }
             catch (Exception ex)
             {

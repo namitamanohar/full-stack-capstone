@@ -15,6 +15,7 @@ namespace FullStackCapstone.Models
         public string Title { get; set; }
 
         [Required]
+        [StringLength(300)]
         public string Description { get; set; }
 
         [Display(Name = "Application Link")]
