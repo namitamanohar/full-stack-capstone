@@ -22,6 +22,8 @@ namespace FullStackCapstone.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
+        //inject application dbContext 
+
         public LoginModel(SignInManager<ApplicationUser> signInManager, 
             ILogger<LoginModel> logger,
             UserManager<ApplicationUser> userManager)
@@ -84,6 +86,7 @@ namespace FullStackCapstone.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    //get current user and update lastlogged in date.now 
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

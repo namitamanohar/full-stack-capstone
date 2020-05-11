@@ -20,7 +20,7 @@ namespace FullStackCapstone.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Opportunities");
         }
 
         public IActionResult Privacy()
