@@ -47,7 +47,6 @@ namespace FullStackCapstone.Controllers
 
             decimal division = Decimal.Divide(oppCartItemsComplete.Count , oppCartItems.Count);
 
-            double divide = 3 / 5; 
             decimal progressBar = division * 100 ;
          
 
