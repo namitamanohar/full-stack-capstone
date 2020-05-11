@@ -42,6 +42,7 @@
                 <div class="modal-body">
                     <form asp-action="CreateOpp">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                       
                         <div class="form-group">
                             <label asp-for="@Model.OppForm.Title" class="control-label"></label>
                             <input asp-for="@Model.OppForm.Title" class="form-control" />
@@ -112,8 +113,8 @@
                     <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
                     <p class="card-text">Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
                     <a type="button" class="applyButton btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
-                    <a class="detailsButton btn btn-warning" data-toggle="modal" data-target="#DetailsModal">Program Details</a>
-                    <div class="modal" id="DetailsModal" role="dialog">
+                    <a class="detailsButton btn btn-warning" data-toggle="modal" data-target="#DetailsModal-@item.Id">Program Details</a>
+                    <div class="modal" id="DetailsModal-@item.Id" role="dialog">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -122,7 +123,6 @@
                                 </div>
                                 <div class="modal-body">
                                     <form>
-                                        <input id="edit-id" hidden asp-for="@Model.OppForm.Id" />
                                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                         <div class="form-group">
                                             <h2>@item.Title</h2>
@@ -146,10 +146,15 @@
                     <br />
                     <form>
                         <input type="image" id="editButton--@item.Id" class="editButton" data-toggle="modal" data-target="#EditOppFormModal" src="~/icons/svg/002-edit.svg" />
-
                     </form>
+                    @if (item.IsActive == true)
+                    {
+                        <form asp-route-id="@item.Id" asp-action="MakeOppInactive">
+                            <input type="submit" value="Make Inactive" />
+                        </form>
 
-
+                    }
+                   
                 </div>
             </div>
 
@@ -231,13 +236,13 @@
 @if (SignInManager.IsSignedIn(User) && !UserManager.GetUserAsync(User).Result.IsAdmin)
 {
 
-    <div class="oppCards" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content:space-evenly">
+<div class="oppCards" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content:space-evenly">
 
-        @foreach (var item in Model.Opportunities)
+    @foreach (var item in Model.Opportunities)
+    {
+        if (item.IsActive == true)
         {
-
-
-            <div class="card border-primary mb-3" style="max-width: 20rem;">
+            <div class="card border-primary mb-3" style="max-width: 20rem; min-width: 20rem; min-height: 28rem; max-height: 28rem;">
                 <div class="card-header">@Html.DisplayFor(modelItem => item.Subject.Title) @Html.DisplayFor(modelItem => item.ProgramType.Title)</div>
                 <div class="card-body">
                     <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
@@ -254,7 +259,67 @@
                                 </div>
                                 <div class="modal-body">
                                     <form>
-                                        <input id="edit-id" hidden asp-for="@Model.OppForm.Id" />
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                        <div class="form-group">
+                                            <h2>@item.Title</h2>
+                                        </div>
+                                        <div class="form-group">
+                                            <p>@item.Description</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <p>Program Dates: @Html.DisplayFor(modelItem => item.StartDate) -- @Html.DisplayFor(modelItem => item.EndDate)</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <p>Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>                    @* change from add to cart to Added if the  *@
+
+                    @if (Model.OppCartItems.FirstOrDefault(oc => oc.OpportunityId == item.Id) != null)
+                    {
+                <form asp-controller="OppCarts" asp-route-id="@item.Id" asp-action="DeleteFromCart">
+
+                    <input type="image" class="subtractButton" src="~/icons/svg/subtract.svg" />
+
+                </form>
+                    }
+                    else
+                    {
+                <form asp-controller="OppCarts" asp-route-id="@item.Id" asp-action="AddToCart">
+
+                    <input type="image" class="addButton" src="~/icons/svg/addButton.svg" />
+
+                </form>
+                    }
+
+
+
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="inactiveOpp card border-primary mb-3" style="max-width: 20rem; min-width: 20rem; min-height: 28rem; max-height: 28rem;">
+                <div class="card-header">@Html.DisplayFor(modelItem => item.Subject.Title) @Html.DisplayFor(modelItem => item.ProgramType.Title)</div>
+                <div class="card-body">
+                    <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
+                    <p class="card-text"> @Html.DisplayFor(modelItem => item.Description)</p>
+                    <p class="card-text">Deadline: @Html.DisplayFor(modelItem => item.ApplicationDeadline)</p>
+                    <a type="button" class="applyButton btn btn-info" href="http://@item.ApplicationLink" target="_blank">Apply</a>
+                    <a class="detailsButton btn btn-warning" data-toggle="modal" data-target="#DetailsModal">Program Details</a>
+                    <div class="modal" id="DetailsModal" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Program Details</h5>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
                                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                         <div class="form-group">
                                             <h2>@item.Title</h2>
@@ -279,7 +344,7 @@
                     {
                         <form asp-controller="OppCarts" asp-route-id="@item.Id" asp-action="DeleteFromCart">
 
-                            <input type="submit" class=" btn btn-light" value="Added" />
+                            <input type="image" class="subtractButton" src="~/icons/svg/subtract.svg" />
 
                         </form>
                     }
@@ -287,7 +352,7 @@
                     {
                         <form asp-controller="OppCarts" asp-route-id="@item.Id" asp-action="AddToCart">
 
-                            <input type="submit" class=" btn btn-light" value="Add to Cart" />
+                            <input type="image" class="addButton" src="~/icons/svg/addButton.svg" />
 
                         </form>
                     }
@@ -296,10 +361,13 @@
 
                 </div>
             </div>
-
-
         }
-    </div>
+
+
+
+
+    }
+</div>
 
 }
 
@@ -310,7 +378,7 @@
         @foreach (var item in Model.Opportunities)
         {
 
-            <div class="card border-primary mb-3" style="max-width: 20rem;">
+            <div class="card border-primary mb-3" style="max-width: 20rem; min-width: 20rem; min-height: 28rem; max-height: 28rem;">
                 <div class="card-header">@Html.DisplayFor(modelItem => item.Subject.Title) @Html.DisplayFor(modelItem => item.ProgramType.Title)</div>
                 <div class="card-body">
                     <h4>@Html.DisplayFor(modelItem => item.Title)</h4>
@@ -327,7 +395,6 @@
                                 </div>
                                 <div class="modal-body">
                                     <form>
-                                        <input id="edit-id" hidden asp-for="@Model.OppForm.Id" />
                                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                         <div class="form-group">
                                             <h2>@item.Title</h2>

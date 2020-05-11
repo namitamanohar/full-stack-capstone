@@ -38,6 +38,7 @@ namespace FullStackCapstone.Controllers
                 Include(o => o.Subject)
                 .Include(o => o.ProgramType)
                 .OrderBy(o => o.ApplicationDeadline)
+                .OrderBy(o => o.ApplicationDeadline > DateTime.Now)
                 .ToListAsync();
 
             var ProgramTypes = await _context.ProgramType
@@ -225,15 +226,21 @@ namespace FullStackCapstone.Controllers
         // POST: Opportunties/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> MakeOppInactive(int id)
         {
             try
             {
-                // TODO: Add delete logic here
+                var OppToMakeInactive = await _context.Opportunity.FirstOrDefaultAsync(o => o.Id == id);
 
-                return RedirectToAction(nameof(Index));
+                OppToMakeInactive.IsActive = false; 
+
+            
+                _context.Opportunity.Update(OppToMakeInactive);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index", "Opportunities");
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }

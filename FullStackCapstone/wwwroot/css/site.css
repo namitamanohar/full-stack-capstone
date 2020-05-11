@@ -16,6 +16,18 @@ a.navbar-brand {
     bottom: 10px;
     left: 100px; 
 }
+.addButton {
+    max-width: 30px;
+    position: absolute;
+    right: 8px;
+    top: 50px;
+}
+.subtractButton {
+    max-width: 30px;
+    position: absolute;
+    right: 8px;
+    top: 50px;
+}
 .editButton {
     max-width: 30px;
     position: absolute;
@@ -25,10 +37,12 @@ a.navbar-brand {
 .deleteButton{
     max-width: 30px; 
 }
+.inactiveOpp{
+    background-color: lightgrey; 
+}
 
-.greenCheck{
-    max-width: 30px; 
-   
+.greenCheck {
+    max-width: 30px;
 }
 .emptyBox{
     max-width :30px; 
