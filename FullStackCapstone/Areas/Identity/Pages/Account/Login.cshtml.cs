@@ -12,6 +12,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Microsoft.Ajax.Utilities;
+using FullStackCapstone.Data;
+using Microsoft.AspNetCore.Session;
 
 namespace FullStackCapstone.Areas.Identity.Pages.Account
 {
@@ -21,16 +24,19 @@ namespace FullStackCapstone.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly ApplicationDbContext _context;
+
 
         //inject application dbContext 
 
         public LoginModel(SignInManager<ApplicationUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _context = context; 
         }
 
         [BindProperty]
@@ -82,11 +88,28 @@ namespace FullStackCapstone.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false );
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
                     //get current user and update lastlogged in date.now 
+
+
+
+                    var currentUser = await _userManager.FindByNameAsync(Input.Email);
+
+                    if(currentUser.LastLoginTime != null)
+                    {
+                        TempData["LogInDate"]= currentUser.LastLoginTime; 
+                    }
+                
+
+                    currentUser.LastLoginTime = DateTime.Now;
+
+                    _context.ApplicationUser.Update(currentUser);
+                    await _context.SaveChangesAsync(); 
+                   
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

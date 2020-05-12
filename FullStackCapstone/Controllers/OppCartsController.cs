@@ -45,18 +45,21 @@ namespace FullStackCapstone.Controllers
                 .Where(o => o.IsComplete == true)
                 .ToListAsync();
 
-            decimal division = Decimal.Divide(oppCartItemsComplete.Count , oppCartItems.Count);
-
-            decimal progressBar = division * 100 ;
-         
-
             var viewModel = new OppCartViewModel
             {
                 OppCarts = oppCartItems,
                 OppCartsComplete = oppCartItemsComplete, 
-                progressBar = progressBar
+              
             };
 
+
+            if (oppCartItems.Count>0)
+            {
+
+                decimal division = Decimal.Divide(oppCartItemsComplete.Count, oppCartItems.Count);
+                decimal progressBar = division * 100;
+                viewModel.progressBar = progressBar;              
+            }
             return View(viewModel);
         }
 
@@ -151,7 +154,7 @@ namespace FullStackCapstone.Controllers
                 await _context.SaveChangesAsync();
 
                 TempData["OppDeleted"] = "You deleted an opportunity from your cart"; 
-                return RedirectToAction("Index", "OppCarts");
+                return RedirectToAction("Index", "Opportunities");
 
             }
             catch (Exception ex)

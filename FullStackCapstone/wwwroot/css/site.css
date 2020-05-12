@@ -28,6 +28,10 @@ a.navbar-brand {
     right: 8px;
     top: 50px;
 }
+.inactiveButton{
+    position: absolute; 
+    bottom: 50px; 
+}
 .editButton {
     max-width: 30px;
     position: absolute;
