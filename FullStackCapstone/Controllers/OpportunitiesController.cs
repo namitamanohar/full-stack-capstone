@@ -41,6 +41,23 @@ namespace FullStackCapstone.Controllers
                 .OrderBy(o => o.ApplicationDeadline > DateTime.Now)
                 .ToListAsync();
 
+            var InactiveOpps = await _context.Opportunity.
+               Include(o => o.Subject)
+               .Include(o => o.ProgramType)
+               .Where(o => o.IsActive == false)
+               .OrderBy(o => o.ApplicationDeadline)
+               .OrderBy(o => o.ApplicationDeadline > DateTime.Now)
+               .ToListAsync();
+
+            var ActiveOpps = await _context.Opportunity.
+               Include(o => o.Subject)
+               .Include(o => o.ProgramType)
+               .Where(o => o.IsActive == true)
+               .OrderBy(o => o.ApplicationDeadline)
+               .OrderBy(o => o.ApplicationDeadline > DateTime.Now)
+               .ToListAsync();
+
+
             var ProgramTypes = await _context.ProgramType
           .Select(pt => new SelectListItem() { Text = pt.Title, Value = pt.Id.ToString() })
           .ToListAsync();
@@ -52,6 +69,8 @@ namespace FullStackCapstone.Controllers
             var viewModel = new OppListAndCreateFormViewModel()
             {
                 Opportunities = opps,
+                InActiveOpportunities = InactiveOpps, 
+                ActiveOpportunities = ActiveOpps, 
                 OppForm = new OppFormViewModel()
                 {
                     SubjectOptions = SubjectTypes,
@@ -223,7 +242,6 @@ namespace FullStackCapstone.Controllers
             return View();
         }
 
-        // POST: Opportunties/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> MakeOppInactive(int id)
@@ -246,6 +264,27 @@ namespace FullStackCapstone.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> MakeOppActive(int id)
+        {
+            try
+            {
+                var OppToMakeInactive = await _context.Opportunity.FirstOrDefaultAsync(o => o.Id == id);
+
+                OppToMakeInactive.IsActive = true;
+
+
+                _context.Opportunity.Update(OppToMakeInactive);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index", "Opportunities");
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+        }
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
     }
 }

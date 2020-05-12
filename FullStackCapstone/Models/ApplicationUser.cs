@@ -18,5 +18,10 @@ namespace FullStackCapstone.Models
         public string LastName { get; set; }
 
         public bool IsAdmin { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:dddd, MMMM dd, yyyy}")]
+        public virtual DateTime? LastLoginTime { get; set; }
+        public virtual DateTime? RegistrationDate { get; set; }
+
     }
 }

@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Index";
-    double width = (@Model.OppCarts.Count / @Model.OppCartsComplete.Count) * 100; 
 
 }
 
@@ -73,10 +72,13 @@
 </table>
 
 
-
+@if(Model.progressBar >= 0)
+{
 <div class="progress">
     <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: @Model.progressBar%" aria-valuenow="@Model.progressBar" aria-valuemin="0" aria-valuemax="100"></div>
 </div>
+
+}
 
 @* dark mode if you wish *@
 @*<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.5/lib/darkmode-js.min.js"></script>
