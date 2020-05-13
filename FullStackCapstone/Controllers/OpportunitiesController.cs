@@ -17,14 +17,17 @@ namespace FullStackCapstone.Controllers
     {
 
         private readonly ApplicationDbContext _context;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public OpportunitiesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public OpportunitiesController(SignInManager<ApplicationUser> signInManager, ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
 
             _context = context;
             _userManager = userManager;
+            _signInManager = signInManager;
+
         }
 
         // GET: Opportunties
@@ -38,15 +41,13 @@ namespace FullStackCapstone.Controllers
                 Include(o => o.Subject)
                 .Include(o => o.ProgramType)
                 .OrderBy(o => o.ApplicationDeadline)
-                .OrderBy(o => o.ApplicationDeadline > DateTime.Now)
                 .ToListAsync();
 
             var InactiveOpps = await _context.Opportunity.
                Include(o => o.Subject)
                .Include(o => o.ProgramType)
-               .Where(o => o.IsActive == false)
+               .Where(o => o.IsActive == false || o.ApplicationDeadline < DateTime.Now )
                .OrderBy(o => o.ApplicationDeadline)
-               .OrderBy(o => o.ApplicationDeadline > DateTime.Now)
                .ToListAsync();
 
             var ActiveOpps = await _context.Opportunity.
@@ -54,8 +55,9 @@ namespace FullStackCapstone.Controllers
                .Include(o => o.ProgramType)
                .Where(o => o.IsActive == true)
                .OrderBy(o => o.ApplicationDeadline)
-               .OrderBy(o => o.ApplicationDeadline > DateTime.Now)
+               .Where(o => o.ApplicationDeadline > DateTime.Now)
                .ToListAsync();
+
 
 
             var ProgramTypes = await _context.ProgramType
@@ -91,8 +93,23 @@ namespace FullStackCapstone.Controllers
 
                 viewModel.Opportunities = filteredOpps; 
             }
-            
 
+            //if the user is a student; then get there lastLogInTime which is currently stored in a TempData["LogInDate"]. OppDateCreated > lastLogIn
+            if (_signInManager.IsSignedIn(User) && user.IsAdmin == false && TempData.ContainsKey("LoginDate"))
+            {
+                var lastLogin = TempData.Peek("LogInDate").ToString();
+
+
+                DateTime lastLoginDate = DateTime.Parse(lastLogin);
+
+                var newOpps = await _context.Opportunity
+                    .Where(o => o.DateCreated > lastLoginDate)
+                    .ToListAsync();
+
+                viewModel.NewOpportunities = newOpps; 
+
+
+            }
             if (user != null)
             {
 
@@ -145,7 +162,8 @@ namespace FullStackCapstone.Controllers
                     SubjectId = OppViewForm.OppForm.SubjectId, 
                     ProgramTypeId = OppViewForm.OppForm.ProgramTypeId, 
                     IsActive = true, 
-                    ApplicationDeadline = OppViewForm.OppForm.ApplicationDeadline
+                    ApplicationDeadline = OppViewForm.OppForm.ApplicationDeadline, 
+                    DateCreated = DateTime.Now
 
                 };
 
