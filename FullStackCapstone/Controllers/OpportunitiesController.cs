@@ -96,6 +96,7 @@ namespace FullStackCapstone.Controllers
             }
 
             //if the user is a student; then get there lastLogInTime which is currently stored in a TempData["LogInDate"]. OppDateCreated > lastLogIn
+
             if (_signInManager.IsSignedIn(User) && user.IsAdmin == false && TempData.ContainsKey("LoginDate"))
             {
                 var lastLogin = TempData.Peek("LogInDate").ToString();
