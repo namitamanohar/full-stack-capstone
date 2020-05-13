@@ -375,6 +375,11 @@
             </div>
         </div>
     }
+    
+    
+    @if(Model.InActiveOpportunities != null)
+    {
+
     @foreach (var item in Model.InActiveOpportunities)
     {
         <div class="inactiveOpp card border-primary mb-3" style="max-width: 20rem; min-width: 20rem; min-height: 28rem; max-height: 28rem;">
@@ -420,6 +425,7 @@
 
             </div>
         </div>
+    }
     }
 
 

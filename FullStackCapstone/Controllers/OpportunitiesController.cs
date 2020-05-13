@@ -91,10 +91,12 @@ namespace FullStackCapstone.Controllers
                     .Where(o => o.Subject.Title
                     .Contains(searchBar) || o.Description.Contains(searchBar) || o.Title.Contains(searchBar) || o.ProgramType.Title.Contains(searchBar) ).ToListAsync();
 
-                viewModel.Opportunities = filteredOpps; 
+                viewModel.ActiveOpportunities = filteredOpps;
+                viewModel.InActiveOpportunities = null; 
             }
 
             //if the user is a student; then get there lastLogInTime which is currently stored in a TempData["LogInDate"]. OppDateCreated > lastLogIn
+
             if (_signInManager.IsSignedIn(User) && user.IsAdmin == false && TempData.ContainsKey("LoginDate"))
             {
                 var lastLogin = TempData.Peek("LogInDate").ToString();

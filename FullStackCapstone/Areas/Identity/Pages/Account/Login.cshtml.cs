@@ -111,7 +111,7 @@ namespace FullStackCapstone.Areas.Identity.Pages.Account
                     _context.ApplicationUser.Update(currentUser);
                     await _context.SaveChangesAsync(); 
                    
-
+                     
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
