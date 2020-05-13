@@ -50,6 +50,8 @@ namespace FullStackCapstone.Models
         [Display(Name = "Application Deadline")]
         public DateTime ApplicationDeadline { get; set; }
 
+        public DateTime DateCreated { get; set; }
+
 
     }
 }

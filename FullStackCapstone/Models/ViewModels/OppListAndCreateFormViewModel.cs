@@ -7,7 +7,7 @@ namespace FullStackCapstone.Models.ViewModels
 {
     public class OppListAndCreateFormViewModel
     {
-
+        public List<Opportunity> NewOpportunities { get; set; }
         public List<Opportunity> ActiveOpportunities { get; set; }
 
         public List<Opportunity> InActiveOpportunities { get; set; }

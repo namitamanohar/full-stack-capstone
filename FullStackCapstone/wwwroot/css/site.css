@@ -17,16 +17,16 @@ a.navbar-brand {
     left: 100px; 
 }
 .addButton {
-    max-width: 30px;
+    max-width: 45px;
     position: absolute;
     right: 8px;
-    top: 50px;
+    bottom: 10px;
 }
 .subtractButton {
-    max-width: 30px;
+    max-width: 45px;
     position: absolute;
     right: 8px;
-    top: 50px;
+    bottom: 10px;
 }
 .inactiveButton{
     position: absolute; 

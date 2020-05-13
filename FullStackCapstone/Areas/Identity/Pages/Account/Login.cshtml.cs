@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Ajax.Utilities;
 using FullStackCapstone.Data;
 using Microsoft.AspNetCore.Session;
+using System.Security.Cryptography.X509Certificates;
 
 namespace FullStackCapstone.Areas.Identity.Pages.Account
 {
@@ -25,7 +26,7 @@ namespace FullStackCapstone.Areas.Identity.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly ApplicationDbContext _context;
-
+      
 
         //inject application dbContext 
 
@@ -48,7 +49,7 @@ namespace FullStackCapstone.Areas.Identity.Pages.Account
 
         [TempData]
         public string ErrorMessage { get; set; }
-
+     
         public class InputModel
         {
             [Required]
@@ -100,8 +101,9 @@ namespace FullStackCapstone.Areas.Identity.Pages.Account
 
                     if(currentUser.LastLoginTime != null)
                     {
-                        TempData["LogInDate"]= currentUser.LastLoginTime; 
-                    }
+                        TempData["LogInDate"]= currentUser.LastLoginTime;
+
+                   }
                 
 
                     currentUser.LastLoginTime = DateTime.Now;
