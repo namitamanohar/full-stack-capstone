@@ -212,7 +212,9 @@ namespace FullStackCapstone.Controllers
                 ProgramTypeOptions = ProgramTypes, 
                 ProgramTypeId = oppItem.ProgramTypeId, 
                 SubjectOptions = SubjectTypes, 
-                SubjectId = oppItem.SubjectId
+                SubjectId = oppItem.SubjectId, 
+                DateCreated = oppItem.DateCreated
+                
             };
 //return the JSon representation
 
@@ -226,6 +228,8 @@ namespace FullStackCapstone.Controllers
         {
             try
             {
+                //var oppItem = await _context.Opportunity.FirstOrDefaultAsync(o => o.Id == OppListandForm.OppForm.Id);
+
                 var editedOpp = new Opportunity()
                 {
                     Id = OppListandForm.OppForm.Id, 
@@ -238,7 +242,8 @@ namespace FullStackCapstone.Controllers
                     ApplicationDeadline = OppListandForm.OppForm.ApplicationDeadline, 
                     StartDate = OppListandForm.OppForm.StartDate, 
                     EndDate = OppListandForm.OppForm.EndDate, 
-                    IsActive = true
+                    IsActive = true, 
+                    DateCreated = OppListandForm.OppForm.DateCreated
 
                 };
 
@@ -248,7 +253,7 @@ namespace FullStackCapstone.Controllers
                 TempData["OppEdited"] = "You have edited a summer program";
 
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Opportunities");
             }
             catch(Exception ex)
             {

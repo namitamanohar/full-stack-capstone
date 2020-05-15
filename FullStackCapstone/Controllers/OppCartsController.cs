@@ -154,7 +154,7 @@ namespace FullStackCapstone.Controllers
                 await _context.SaveChangesAsync();
 
                 TempData["OppDeleted"] = "You deleted an opportunity from your cart"; 
-                return RedirectToAction("Index", "Opportunities");
+                return RedirectToAction("Index", "OppCarts");
 
             }
             catch (Exception ex)
@@ -163,6 +163,26 @@ namespace FullStackCapstone.Controllers
             }
         }
 
+        public async Task<ActionResult> DeleteFromOppCard(int id)
+        {
+            try
+            {
+                var user = await GetCurrentUserAsync();
+                var UserOpps = await _context.OppCart.Where(oc => oc.UserId == user.Id).ToListAsync();
+                var OppToDelete = UserOpps.FirstOrDefault(uo => uo.OpportunityId == id);
+
+                _context.OppCart.Remove(OppToDelete);
+                await _context.SaveChangesAsync();
+
+                TempData["OppDeleted"] = "You deleted an opportunity from your cart";
+                return RedirectToAction("Index", "Opportunities");
+
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+        }
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);
 
