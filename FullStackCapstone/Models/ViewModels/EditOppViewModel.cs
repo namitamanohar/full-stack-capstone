@@ -45,5 +45,7 @@ namespace FullStackCapstone.Models.ViewModels
 
         [DisplayFormat(DataFormatString = "{0:dddd, MMMM dd, yyyy}")]
         public DateTime ApplicationDeadline { get; set; }
+
+
     }
 }

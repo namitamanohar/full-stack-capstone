@@ -43,6 +43,8 @@ allEditButtons.forEach(eb => {
         const data = await response.json();  
 
         document.getElementById("edit-id").value = data.id
+        debugger
+        document.getElementById("edit-dateCreated").value = data.dateCreated.split("T")
         document.getElementById("edit-title").value = data.title 
         document.getElementById("edit-description").value = data.description 
         document.getElementById("edit-applicationLink").value = data.applicationLink 
