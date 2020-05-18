@@ -8,6 +8,9 @@ a.navbar-brand {
   text-align: center;
   word-break: break-all;
 }
+.searchBox{
+    margin-left: 90px; 
+}
 .applyButton{
     position: absolute; 
     bottom: 10px; 
