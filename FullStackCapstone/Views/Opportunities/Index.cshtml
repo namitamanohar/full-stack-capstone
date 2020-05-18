@@ -246,7 +246,7 @@
                                 <input id="edit-applicationDeadline" asp-for="@Model.OppForm.ApplicationDeadline" type="date" class="form-control" />
                                 <span asp-validation-for="@Model.OppForm.ApplicationDeadline" class="text-danger"></span>
                             </div>
-                            <input id="edit-dateCreated"  asp-for="@Model.OppForm.DateCreated" type="datetime" class="form-control" />
+                            <input id="edit-dateCreated" hidden asp-for="@Model.OppForm.DateCreated" type="datetime" class="form-control" />
                             <div class="form-group">
                                 <input type="submit" value="Edit" class="btn btn-primary" />
                             </div>
