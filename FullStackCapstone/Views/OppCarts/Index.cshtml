@@ -1,5 +1,7 @@
-﻿@model FullStackCapstone.Models.ViewModels.OppCartViewModel
+﻿@using Microsoft.AspNetCore.Identity
 
+@inject UserManager<ApplicationUser> UserManager
+@model FullStackCapstone.Models.ViewModels.OppCartViewModel
 @{
     ViewData["Title"] = "Index";
 
@@ -14,7 +16,7 @@
 }
 
 
-<h1>Summer Programs To Do List</h1>
+<h1>@UserManager.GetUserAsync(User).Result.FirstName's Cart </h1>
 <table class="table">
     <thead>
         <tr>
@@ -72,11 +74,11 @@
 </table>
 
 
-@if(Model.progressBar >= 0)
+@if (Model.progressBar >= 0)
 {
-<div class="progress">
-    <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: @Model.progressBar%" aria-valuenow="@Model.progressBar" aria-valuemin="0" aria-valuemax="100"></div>
-</div>
+    <div class="progress">
+        <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: @Model.progressBar%" aria-valuenow="@Model.progressBar" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
 
 }
 
