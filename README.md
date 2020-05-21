@@ -4,7 +4,19 @@ Melan.In is a web application that allows student to view upcoming summer opport
 
 Melan.In is an Asp.NetCore MVC web app with Entity and Identity Frameworks styled with a bootstrap theme from Bootswatch
 
-<img src="./FullStackCapstone/wwwroot/images/studentView.PNG" height="180" width="260">      <img src="./FullStackCapstone/wwwroot/images/CartView.PNG" height="180" width="260"> <img src="./FullStackCapstone/wwwroot/images/AdminView.PNG" height="180" width="260">   
+
+<table>
+  <tr>
+    <td>Student Opportunities View</td>
+     <td>Student Opportunities Cart View</td>
+     <td>Admin Add Opportunity View</td>
+  </tr>
+  <tr>
+    <td><img src="./FullStackCapstone/wwwroot/images/studentView.PNG" height="200" width="280"></td>
+    <td><img src="./FullStackCapstone/wwwroot/images/CartView.PNG" height="200" width="280"></td>
+    <td><img src="./FullStackCapstone/wwwroot/images/AdminView.PNG" height="200" width="280"></td>
+  </tr>
+ </table>
 ## Installation
 
 From your terminal run git clone SSH KEY HERE
